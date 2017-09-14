@@ -15,13 +15,15 @@ namespace csharp
 
             foreach (var item in Items)
             {
-                int qualityModifier = 0;
-                int sellInModifier = 0;
+                var qualityModifier = 1;
+                var sellInModifier = 1;
 
 
                 switch(item.Name)
                 {
                     case "Sulfuras, Hand of Ragnaros":
+                        qualityModifier = 0;
+                        sellInModifier = 0;
                         break;
                     case "Aged Brie":
                         qualityModifier = -1;
@@ -42,10 +44,6 @@ namespace csharp
                         {
                             qualityModifier = -3;
                         }
-                        break;
-                    default:
-                        qualityModifier = 1;
-                        sellInModifier = 1;
                         break;
                 }
 
