@@ -30,7 +30,7 @@ export class GildedRose {
             let identifier = GildedRose.findIdentifier(item.name);
             let functionMap = {
                 "Sulfuras": new functionLookup(function() {},0),
-                "Backstage pass": new functionLookup(backstagePass,0),
+                "Backstage pass": new functionLookup(normalItem,GildedRose.backStagepassQualityIncrease(item)),
                 "Aged Brie": new functionLookup(normalItem,-1),
                 "Conjured": new functionLookup(normalItem,2),
                 "Normal": new functionLookup(normalItem,1),};
@@ -39,9 +39,6 @@ export class GildedRose {
         }
         return this.items;
 
-        function backstagePass(item) {
-            GildedRose.degradeItemQuality(item, GildedRose.backStagepassQualityIncrease(item))
-        }
         function normalItem(item, value) {
             GildedRose.degradeItemQuality(item, value);
             GildedRose.ageItem(item);

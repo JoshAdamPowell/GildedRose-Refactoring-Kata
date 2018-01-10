@@ -84,6 +84,13 @@ describe('Sulfuras', function () {
 });
 
 describe('Backstage Passes', function () {
+
+    it('Backstage passes decrease in quality by 1 each day', function() {
+        let gildedRose = new GildedRose([ new Item('Backstage passes to a TAFKAL80ETC concert', 15, 40) ]);
+        let items = gildedRose.updateQuality();
+        expect(items[0].sellIn).to.equal(14);
+    });
+
     it('Backstage passes quality increase by 1 with more than 10 days left', function() {
         let gildedRose = new GildedRose([ new Item('Backstage passes to a TAFKAL80ETC concert', 15, 40) ]);
         let items = gildedRose.updateQuality();
