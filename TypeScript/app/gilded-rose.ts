@@ -21,26 +21,35 @@ export class GildedRose {
 
         for (let item of this.items) {
             let identifier = GildedRose.findIdentifier(item.name);
-            switch (identifier) {
-                case 'Conjured':
-                    GildedRose.degradeItemQuality(item, 2);
-                    GildedRose.ageItem(item);
-                    break;
-                case 'Sulfuras':
-                    break;
-                case 'Backstage passes to a TAFKAL80ETC concert':
-                    GildedRose.degradeItemQuality(item, GildedRose.backStagepassQualityIncrease(item));
-                    break;
-                case 'Aged Brie':
-                    GildedRose.degradeItemQuality(item, -1);
-                    GildedRose.ageItem(item);
-                    break;
-                default:
-                    GildedRose.degradeItemQuality(item, 1);
-                    GildedRose.ageItem(item);
-            }
+            let functionMap = {
+                "Sulfuras": function () {},
+                "Backstage pass": backstagePass,
+                "Aged Brie": agedBrie,
+                "Conjured": conjured,
+                "Normal": normalItem};
+            functionMap[identifier](item);
+
         }
         return this.items;
+
+        function backstagePass(item) {
+            GildedRose.degradeItemQuality(item, GildedRose.backStagepassQualityIncrease(item))
+        }
+
+        function agedBrie(item) {
+            GildedRose.degradeItemQuality(item, -1);
+            GildedRose.ageItem(item)
+        }
+
+        function conjured(item) {
+            GildedRose.degradeItemQuality(item, 2);
+            GildedRose.ageItem(item)
+        }
+
+        function normalItem(item) {
+            GildedRose.degradeItemQuality(item, 1);
+            GildedRose.ageItem(item);
+        }
 
     }
     static degradeItemQuality(item, valueToDegradeQuality){
@@ -65,6 +74,12 @@ export class GildedRose {
     static findIdentifier(itemName){
         if (itemName.includes('Sulfuras')){return 'Sulfuras' }
         else if (itemName.includes('Conjured')){return 'Conjured' }
-        else {return itemName}
+        else if (itemName.includes('Backstage pass')){return 'Backstage pass'}
+        else if (itemName === 'Aged Brie'){return 'Aged Brie'}
+        else {return 'Normal'}
+    }
+
+    static foo (fn){
+        fn();
     }
 }
