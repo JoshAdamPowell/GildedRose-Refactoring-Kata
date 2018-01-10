@@ -9,7 +9,14 @@ export class Item {
         this.quality = quality;
     }
 }
-
+class functionLookup{
+    functionName;
+    valueModifier;
+    constructor(functionName, valueModifier){
+        this.functionName = functionName;
+        this.valueModifier = valueModifier;
+    }
+}
 export class GildedRose {
     items: Array<Item>;
 
@@ -22,12 +29,12 @@ export class GildedRose {
         for (let item of this.items) {
             let identifier = GildedRose.findIdentifier(item.name);
             let functionMap = {
-                "Sulfuras": [function () {}],
-                "Backstage pass": [backstagePass],
-                "Aged Brie": [normalItem,-1],
-                "Conjured": [normalItem,2],
-                "Normal": [normalItem ,1],};
-            functionMap[identifier][0](item, functionMap[identifier][1]);
+                "Sulfuras": new functionLookup(function() {},0),
+                "Backstage pass": new functionLookup(backstagePass,0),
+                "Aged Brie": new functionLookup(normalItem,-1),
+                "Conjured": new functionLookup(normalItem,2),
+                "Normal": new functionLookup(normalItem,1),};
+            functionMap[identifier].functionName(item, functionMap[identifier].valueModifier);
 
         }
         return this.items;
