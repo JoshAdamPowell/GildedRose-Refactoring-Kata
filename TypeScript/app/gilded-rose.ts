@@ -22,12 +22,12 @@ export class GildedRose {
         for (let item of this.items) {
             let identifier = GildedRose.findIdentifier(item.name);
             let functionMap = {
-                "Sulfuras": function () {},
-                "Backstage pass": backstagePass,
-                "Aged Brie": agedBrie,
-                "Conjured": conjured,
-                "Normal": normalItem};
-            functionMap[identifier](item);
+                "Sulfuras": [function () {}],
+                "Backstage pass": [backstagePass],
+                "Aged Brie": [normalItem,-1],
+                "Conjured": [normalItem,2],
+                "Normal": [normalItem ,1],};
+            functionMap[identifier][0](item, functionMap[identifier][1]);
 
         }
         return this.items;
@@ -35,19 +35,8 @@ export class GildedRose {
         function backstagePass(item) {
             GildedRose.degradeItemQuality(item, GildedRose.backStagepassQualityIncrease(item))
         }
-
-        function agedBrie(item) {
-            GildedRose.degradeItemQuality(item, -1);
-            GildedRose.ageItem(item)
-        }
-
-        function conjured(item) {
-            GildedRose.degradeItemQuality(item, 2);
-            GildedRose.ageItem(item)
-        }
-
-        function normalItem(item) {
-            GildedRose.degradeItemQuality(item, 1);
+        function normalItem(item, value) {
+            GildedRose.degradeItemQuality(item, value);
             GildedRose.ageItem(item);
         }
 
@@ -77,9 +66,5 @@ export class GildedRose {
         else if (itemName.includes('Backstage pass')){return 'Backstage pass'}
         else if (itemName === 'Aged Brie'){return 'Aged Brie'}
         else {return 'Normal'}
-    }
-
-    static foo (fn){
-        fn();
     }
 }
